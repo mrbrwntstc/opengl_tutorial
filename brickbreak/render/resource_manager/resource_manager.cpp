@@ -1,5 +1,7 @@
 #include "../resource_manager.h"
 
+namespace render
+{
 namespace resource_manager
 {
   std::map<std::string, unsigned int> shaders;
@@ -8,4 +10,5 @@ namespace resource_manager
   {
     shaders[name] = shader::compile(source_vertex, source_fragment);
   }
+}
 }

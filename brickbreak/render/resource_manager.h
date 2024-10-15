@@ -1,11 +1,13 @@
-#ifndef __RENDER_H__
-#define __RENDER_H__
+#ifndef __RESOURCE_MANAGER_H__
+#define __RESOURCE_MANAGER_H__
 
 #include <map>
 #include <string>
 
 #include <glad/glad.h>
 
+namespace render
+{
 namespace resource_manager
 {
   extern std::map<std::string, unsigned int> shaders;
@@ -21,5 +23,6 @@ namespace shader
   }
 }
 }
+}
 
-#endif // __RENDER_H__
+#endif // __RESOURCE_MANAGER_H__

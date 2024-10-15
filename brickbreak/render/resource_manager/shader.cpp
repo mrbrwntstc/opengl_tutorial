@@ -2,6 +2,8 @@
 
 #include <glad/glad.h>
 
+namespace render
+{
 namespace resource_manager
 {
 namespace shader
@@ -53,4 +55,4 @@ namespace shader
   }
 }
 }
-
+}

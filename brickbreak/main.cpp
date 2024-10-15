@@ -9,11 +9,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "resource_manager.h"
+#include "render.h"
+#include "render/resource_manager.h"
 
 static const unsigned int width_window = 800;
 static const unsigned int height_window = 600;
-void glfw_framebuffer_size_callback(GLFWwindow* window, int width_new, int height_new);
 
 static const char *vertex_source = "#version 330 core\n"
   "layout (location = 0) in vec3 aPos;\n"
@@ -38,39 +38,15 @@ static const char *fragment_source = "#version 330 core\n"
 
 int main()
 {
-  // window
-  // ---
-  if(glfwInit() == GLFW_FALSE)
-  {
-    fprintf(stderr, "Failed to initialize GLFW\n");
-    return -1;
-  }
-
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-  glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-  glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-  glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-
-  GLFWwindow *window = glfwCreateWindow(width_window, height_window, "Brickbreak C", NULL, NULL);
-  if(!window)
-  {
-    fprintf(stderr, "Failed to create GLFW Window\n");
-    glfwTerminate();
-    return -1;
-  }
-  glfwMakeContextCurrent(window);
-  glfwSetFramebufferSizeCallback(window, glfw_framebuffer_size_callback);
-
-  gladLoadGL();
-  // ---
+  render::init(width_window, height_window, "brickbreak", width_window, height_window);
 
   // shaders
   // ---
-  resource_manager::add_shader("default", vertex_source, fragment_source);
-  void (*shader_use)(unsigned int) = &resource_manager::shader::use;
-  void (*shader_set_uniform_mat4)(unsigned int, const char*, const float*) = &resource_manager::shader::uniform::set_mat4;
-  void (*shader_set_uniform_vec4)(unsigned int, const char*, const float*) = &resource_manager::shader::uniform::set_vec4;
-  unsigned int shader_program = resource_manager::shaders["default"]; 
+  render::resource_manager::add_shader("default", vertex_source, fragment_source);
+  void (*shader_use)(unsigned int) = &render::resource_manager::shader::use;
+  void (*shader_set_uniform_mat4)(unsigned int, const char*, const float*) = &render::resource_manager::shader::uniform::set_mat4;
+  void (*shader_set_uniform_vec4)(unsigned int, const char*, const float*) = &render::resource_manager::shader::uniform::set_vec4;
+  unsigned int shader_program = render::resource_manager::shaders["default"]; 
   // projection matrix will not change, so set it after the program is created
   shader_use(shader_program);
   glm::mat4 projection_mat4 = glm::ortho(0.0f, static_cast<float>(width_window), static_cast<float>(height_window), 0.0f, -1.0f, 1.0f);
@@ -149,7 +125,7 @@ int main()
     glBindVertexArray(0);
   }
 
-  while(!glfwWindowShouldClose(window))
+  while(!render::window::should_close())
   {
     // render
     // ---
@@ -184,7 +160,7 @@ int main()
     glBindVertexArray(0);
 
     // end
-    glfwSwapBuffers(window);
+    glfwSwapBuffers(render::window::window);
     glfwPollEvents();
   }
 
@@ -193,12 +169,7 @@ int main()
   glDeleteBuffers(1, &vbo_quad);
   glDeleteBuffers(1, &ebo_quad);
 
-  glfwTerminate();
+  render::cleanup();
 
   return 0;
-}
-
-void glfw_framebuffer_size_callback(GLFWwindow* window, int width_new, int height_new)
-{
-  glViewport(0, 0, width_new, height_new);
 }
