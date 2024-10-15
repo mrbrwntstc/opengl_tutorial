@@ -15,7 +15,10 @@ set LIBS_PATHS=glfw3.lib opengl32.lib gdi32.lib user32.lib kernel32.lib shell32.
 :: Set up the Visual Studio environment
 call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
 
-set SRC_FILES="main.cpp"
+set RESOURCE_MANAGER_SRCS="resource_manager\shader.cpp" "resource_manager\resource_manager.cpp"
+::set SRC_FILES="main.cpp" %RESOURCE_MANAGER%
+set SRC_FILES="main.cpp" %RESOURCE_MANAGER_SRCS%
+echo %SRC_FILES%
 set INCLUDE_DIRS="/I."
 
 echo %THRDPRTY_INCLUDES% %INCLUDE_DIRS% %SRC_FILES% "%THRDPRTY_GLAD%\src\glad.c" > compile_link.rsp
