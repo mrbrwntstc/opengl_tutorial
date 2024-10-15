@@ -9,6 +9,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "resource_manager.h"
+
 static const unsigned int width_window = 800;
 static const unsigned int height_window = 600;
 void glfw_framebuffer_size_callback(GLFWwindow* window, int width_new, int height_new);
@@ -64,49 +66,15 @@ int main()
 
   // shaders
   // ---
-  unsigned int shader_program;
-  {
-    int success;
-    char info[512];
-    // vertex shader
-    int shader_vertex = glCreateShader(GL_VERTEX_SHADER);
-    glShaderSource(shader_vertex, 1, &vertex_source, NULL);
-    glCompileShader(shader_vertex);
-    glGetShaderiv(shader_vertex, GL_COMPILE_STATUS, &success);
-    if(!success)
-    {
-      glGetShaderInfoLog(shader_vertex, 512, NULL, info);
-      fprintf(stderr, "Failed to compile vertex shader source: %s\n", info);
-    }
-    // fragment shader
-    int shader_fragment = glCreateShader(GL_FRAGMENT_SHADER);
-    glShaderSource(shader_fragment, 1, &fragment_source, NULL);
-    glCompileShader(shader_fragment);
-    glGetShaderiv(shader_fragment, GL_COMPILE_STATUS, &success);
-    if(!success)
-    {
-      glGetShaderInfoLog(shader_fragment, 512, NULL, info);
-      fprintf(stderr, "Failed to compile fragment shader source: %s\n", info);
-    }
-    // create program and link shaders
-    shader_program = glCreateProgram();
-    glAttachShader(shader_program, shader_vertex);
-    glAttachShader(shader_program, shader_fragment);
-    glLinkProgram(shader_program);
-    glGetProgramiv(shader_program, GL_LINK_STATUS, &success);
-    if(!success)
-    {
-      glGetProgramInfoLog(shader_program, 512, NULL, info);
-      fprintf(stderr, "Failed to compile shader program: %s\n", info);
-    }
-    glDeleteShader(shader_vertex);
-    glDeleteShader(shader_fragment);
-
-    // projection matrix will not change, so set it after the program is created
-    glUseProgram(shader_program);
-    glm::mat4 projection_mat4 = glm::ortho(0.0f, static_cast<float>(width_window), static_cast<float>(height_window), 0.0f, -1.0f, 1.0f);
-    glUniformMatrix4fv(glGetUniformLocation(shader_program, "projection"), 1, false, &projection_mat4[0][0]);
-  }
+  resource_manager::add_shader("default", vertex_source, fragment_source);
+  void (*shader_use)(unsigned int) = &resource_manager::shader::use;
+  void (*shader_set_uniform_mat4)(unsigned int, const char*, const float*) = &resource_manager::shader::uniform::set_mat4;
+  void (*shader_set_uniform_vec4)(unsigned int, const char*, const float*) = &resource_manager::shader::uniform::set_vec4;
+  unsigned int shader_program = resource_manager::shaders["default"]; 
+  // projection matrix will not change, so set it after the program is created
+  shader_use(shader_program);
+  glm::mat4 projection_mat4 = glm::ortho(0.0f, static_cast<float>(width_window), static_cast<float>(height_window), 0.0f, -1.0f, 1.0f);
+  shader_set_uniform_mat4(shader_program, "projection", &projection_mat4[0][0]);
   // ---
 
   // initialize data for shader
@@ -189,15 +157,15 @@ int main()
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
-    glUseProgram(shader_program);
-    int model_location = glGetUniformLocation(shader_program, "model");
-    int color_location = glGetUniformLocation(shader_program, "color");
+    shader_use(shader_program);
     // define uniforms
     glm::mat4 model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(200.0f, 200.0f, 0.0f));
     model = glm::scale(model, glm::vec3(30.0f, 40.0f, 1.0f));
-    glUniformMatrix4fv(model_location, 1, false, &model[0][0]);
-    glUniform4f(color_location, 0.0f, 1.0f, 0.0f, 1.0f);
+    shader_set_uniform_mat4(shader_program, "model", &model[0][0]);
+    shader_set_uniform_vec4(shader_program, "color", &glm::vec4(0.0f, 1.0f, 0.0f, 1.0f)[0]);
+    // glUniformMatrix4fv(model_location, 1, false, &model[0][0]);
+    // glUniform4f(color_location, 0.0f, 1.0f, 0.0f, 1.0f);
     // draw
     glBindVertexArray(vao_quad);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo_quad);
@@ -207,8 +175,10 @@ int main()
 
     model = glm::mat4(1.0f);
     model = glm::translate(model, glm::vec3(200.0f, 200.0f, 0.0f));
-    glUniformMatrix4fv(model_location, 1, false, &model[0][0]);
-    glUniform4f(color_location, 1.0f, 0.0f, 0.0f, 1.0f);
+    shader_set_uniform_mat4(shader_program, "model", &model[0][0]);
+    shader_set_uniform_vec4(shader_program, "color", &glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)[0]);
+    // glUniformMatrix4fv(model_location, 1, false, &model[0][0]);
+    // glUniform4f(color_location, 1.0f, 0.0f, 0.0f, 1.0f);
     glBindVertexArray(vao_circle);
     glDrawArrays(GL_TRIANGLE_FAN, 0, NUM_SEGMENTS);
     glBindVertexArray(0);
