@@ -124,12 +124,18 @@ int main()
 
     glBindVertexArray(0);
   }
-
+  
   while(!render::window::should_close())
   {
     // render
     // ---
     render::loop::begin();
+
+    render::shapes::quad(
+      glm::vec3(400.0f, 400.0f, 0.0f),
+      glm::vec3(50.0f, 50.0f, 0.0f),
+      glm::vec4(1.0f, 1.0f, 0.0f, 1.0f)
+    );
 
     shader_use(shader_program);
     // define uniforms

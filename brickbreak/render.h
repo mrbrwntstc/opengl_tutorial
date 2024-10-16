@@ -6,6 +6,9 @@
 #define GLAD_GL_NO_PROTOTYPES
 #include <glad/glad.h>
 
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
 namespace render
 {
   void init(int width_window, int height_window, const char* title_window, float width_screen, float height_screen);
@@ -21,6 +24,12 @@ namespace loop
 {
   void begin();
   void end();
+}
+namespace shapes
+{
+  void init();
+  void cleanup();
+  void quad(glm::vec3 position, glm::vec3 size, glm::vec4 color);
 }
 }
 

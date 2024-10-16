@@ -15,7 +15,7 @@ set LIBS_PATHS=glfw3.lib opengl32.lib gdi32.lib user32.lib kernel32.lib shell32.
 :: Set up the Visual Studio environment
 call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
 
-set RENDER_SRCS="render\render.cpp" "render\window.cpp" "render\resource_manager\shader.cpp" "render\resource_manager\resource_manager.cpp"
+set RENDER_SRCS="render\render.cpp" "render\shapes.cpp" "render\window.cpp" "render\resource_manager\shader.cpp" "render\resource_manager\resource_manager.cpp"
 ::set SRC_FILES="main.cpp" %RESOURCE_MANAGER%
 set SRC_FILES="main.cpp" %RENDER_SRCS%
 echo %SRC_FILES%
