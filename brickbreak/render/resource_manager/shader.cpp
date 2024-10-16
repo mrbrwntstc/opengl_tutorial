@@ -2,6 +2,9 @@
 
 #include <glad/glad.h>
 
+#include <stdexcept>
+#include <string>
+
 namespace render
 {
 namespace resource_manager
@@ -20,8 +23,8 @@ namespace shader
     if(!success)
     {
       glGetShaderInfoLog(vertex, 512, NULL, info_log);
-      fprintf(stderr, "ERROR: vertex shader compilation failed: %s\n", info_log);
-      return -1;
+      std::string error_message = "ERROR: vertex shader compilation failed: " + std::string(info_log) + "\n";
+      throw std::runtime_error(error_message.c_str());
     }
 
     // fragment shader
@@ -32,8 +35,8 @@ namespace shader
     if(!success)
     {
       glGetShaderInfoLog(fragment, 512, NULL, info_log);
-      fprintf(stderr, "ERROR: fragment shader compilation failed: %s\n", info_log);
-      return -1;
+      std::string error_message = "ERROR: fragment shader compilation failed: " + std::string(info_log) + "\n";
+      throw std::runtime_error(error_message.c_str());
     }
 
     // shader program
@@ -45,8 +48,8 @@ namespace shader
     if(!success)
     {
       glGetProgramInfoLog(program, 512, NULL, info_log);
-      fprintf(stderr, "ERROR: shader program linking failed: %s\n", info_log);
-      return -1;
+      std::string error_message = "ERROR: shader program linking failed: " + std::string(info_log) + "\n";
+      throw std::runtime_error(error_message.c_str());
     }
     glDeleteShader(vertex);
     glDeleteShader(fragment);

@@ -30,6 +30,7 @@ namespace shapes
   void init();
   void cleanup();
   void quad(glm::vec3 position, glm::vec3 size, glm::vec4 color);
+  void circle(glm::vec3 position, float radius, glm::vec4 color);
 }
 }
 
