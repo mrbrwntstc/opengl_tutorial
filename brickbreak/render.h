@@ -17,6 +17,11 @@ namespace window
   inline void cleanup() { glfwDestroyWindow(window); }
   inline bool should_close() { return glfwWindowShouldClose(window); }
 }
+namespace loop
+{
+  void begin();
+  void end();
+}
 }
 
 #endif // __RENDER_H__

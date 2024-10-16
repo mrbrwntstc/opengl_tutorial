@@ -12,4 +12,18 @@ namespace render
     window::cleanup();
     glfwTerminate();
   }
+namespace loop
+{
+  void begin()
+  {
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+  }
+
+  void end()
+  {
+    glfwSwapBuffers(render::window::window);
+    glfwPollEvents();
+  }
+}
 }

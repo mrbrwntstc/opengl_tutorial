@@ -129,9 +129,7 @@ int main()
   {
     // render
     // ---
-    // begin
-    glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
+    render::loop::begin();
 
     shader_use(shader_program);
     // define uniforms
@@ -159,9 +157,7 @@ int main()
     glDrawArrays(GL_TRIANGLE_FAN, 0, NUM_SEGMENTS);
     glBindVertexArray(0);
 
-    // end
-    glfwSwapBuffers(render::window::window);
-    glfwPollEvents();
+    render::loop::end();
   }
 
   // cleanup
