@@ -3,10 +3,33 @@
 static const unsigned int width_window = 800;
 static const unsigned int height_window = 600;
 
+// input
+// ---
+bool key_left;
+bool key_right;
+void glfw_key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+  if(key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+    glfwSetWindowShouldClose(window, true);
+
+  if(key == GLFW_KEY_LEFT && (action == GLFW_PRESS || action == GLFW_REPEAT))
+    key_left = true;
+  else
+    key_left = false;;
+
+  if(key == GLFW_KEY_RIGHT && (action == GLFW_PRESS || action == GLFW_REPEAT))
+    key_right = true;
+  else
+    key_right = false;
+}
+// ---
 
 int main()
 {
   render::init(width_window, height_window, "brickbreak", width_window, height_window);
+
+  // input
+  glfwSetKeyCallback(render::window::window, glfw_key_callback);
 
   // level
   // ---
@@ -36,8 +59,27 @@ int main()
   glm::vec4 color_player = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
   // ---
 
+  
   while(!render::window::should_close())
   {
+
+    // input
+    // ---
+    if(key_left)
+    {
+      position_player.x -= 10.0f;
+      if(position_player.x < 0.0f)
+        position_player.x = 0.0f;
+    }
+
+    if(key_right)
+    {
+      position_player.x += 10.0f;
+      if(position_player.x > width_window - size_player.x)
+        position_player.x = width_window - size_player.x;
+    }
+    // ---
+
     // render
     // ---
     render::loop::begin();
