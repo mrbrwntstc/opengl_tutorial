@@ -13,18 +13,6 @@ int main()
   input::init();
   time::init(60);
 
-  // time
-  // ---
-  float frame_rate = 60.0f;
-  unsigned int frame_count = 0;
-  float frame_delay = 1.f / frame_rate;
-  float dt = 0.f;
-  float time_current = 0.f;
-  float time_previous = 0.f;
-  float frame_previous = 0.f;
-  float frame_time = 0.f;
-  // ---
-
   // level
   // ---
   const int num_rows = 6;
