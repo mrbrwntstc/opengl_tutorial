@@ -1,5 +1,6 @@
 #include "render.h"
 #include "input.h"
+#include "time.h"
 
 #include <Windows.h>
 
@@ -10,6 +11,7 @@ int main()
 {
   render::init(width_window, height_window, "brickbreak", width_window, height_window);
   input::init();
+  time::init(60);
 
   // time
   // ---
@@ -53,20 +55,7 @@ int main()
 
   while(!render::window::should_close())
   {
-    // time
-    // ---
-    time_current = glfwGetTime();
-    dt = time_current - time_previous;
-    time_previous = time_current;
-    frame_count += 1;
-
-    if(time_current - frame_previous >= 1.f)
-    {
-      frame_rate = frame_count;
-      frame_count = 0;
-      frame_previous = time_current;
-    }
-    // ---
+    time::update();
 
     // input
     // ---
@@ -126,12 +115,7 @@ int main()
 
     render::loop::end();
 
-    // time
-    // ---
-    frame_time = glfwGetTime() - time_current;
-    if(frame_delay > frame_time)
-      Sleep((frame_delay - frame_time) * 1000);
-    // ---
+    time::update_late();
   }
 
   // cleanup

@@ -17,8 +17,9 @@ call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build
 
 set RENDER_SRCS="render\render.cpp" "render\shapes.cpp" "render\window.cpp" "render\resource_manager\shader.cpp" "render\resource_manager\resource_manager.cpp"
 set INPUT_SRCS="input\input.cpp" "input\key.cpp"
+set TIME_SRCS="time\time.cpp"
 ::set SRC_FILES="main.cpp" %RESOURCE_MANAGER%
-set SRC_FILES="main.cpp" %RENDER_SRCS% %INPUT_SRCS%
+set SRC_FILES="main.cpp" %RENDER_SRCS% %INPUT_SRCS% %TIME_SRCS%
 echo %SRC_FILES%
 set INCLUDE_DIRS="/I."
 
