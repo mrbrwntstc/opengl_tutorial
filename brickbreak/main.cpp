@@ -1,6 +1,8 @@
 #include "render.h"
 #include "input.h"
 
+#include <Windows.h>
+
 static const unsigned int width_window = 800;
 static const unsigned int height_window = 600;
 
@@ -8,6 +10,18 @@ int main()
 {
   render::init(width_window, height_window, "brickbreak", width_window, height_window);
   input::init();
+
+  // time
+  // ---
+  float frame_rate = 60.0f;
+  unsigned int frame_count = 0;
+  float frame_delay = 1.f / frame_rate;
+  float dt = 0.f;
+  float time_current = 0.f;
+  float time_previous = 0.f;
+  float frame_previous = 0.f;
+  float frame_time = 0.f;
+  // ---
 
   // level
   // ---
@@ -37,9 +51,22 @@ int main()
   glm::vec4 color_player = glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
   // ---
 
-  
   while(!render::window::should_close())
   {
+    // time
+    // ---
+    time_current = glfwGetTime();
+    dt = time_current - time_previous;
+    time_previous = time_current;
+    frame_count += 1;
+
+    if(time_current - frame_previous >= 1.f)
+    {
+      frame_rate = frame_count;
+      frame_count = 0;
+      frame_previous = time_current;
+    }
+    // ---
 
     // input
     // ---
@@ -98,6 +125,13 @@ int main()
     // ---
 
     render::loop::end();
+
+    // time
+    // ---
+    frame_time = glfwGetTime() - time_current;
+    if(frame_delay > frame_time)
+      Sleep((frame_delay - frame_time) * 1000);
+    // ---
   }
 
   // cleanup
