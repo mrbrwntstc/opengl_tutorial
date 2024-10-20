@@ -25,22 +25,31 @@ glm::vec4 colors[] =
   glm::vec4(0.0f, 0.0f, 1.0f, 1.0f),    // blue
   glm::vec4(0.5f, 0.0f, 0.5f, 1.0f)     // purple
 };
-typedef struct Block
+struct Block
 {
   glm::vec3 top_left;
   glm::vec4 color;
-} block;
-block blocks[num_rows * num_cols];
+};
 // ---
 
 // player
 // ---
-typedef struct Player
+struct Player
 {
   glm::vec3 position;
   glm::vec3 size;
   glm::vec4 color;
-} player;
+};
+// ---
+
+// ball
+// ---
+struct Ball
+{
+  glm::vec3 position;
+  glm::vec3 velocity;
+  glm::vec4 color;
+};
 // ---
 
 int main()
@@ -51,6 +60,7 @@ int main()
 
   // level
   // ---
+  Block blocks[num_rows * num_cols];
   for(int row = 0; row < num_rows; row++)
   {
     for(int col = 0; col < num_cols; col++)
@@ -67,11 +77,24 @@ int main()
 
   // player
   // ---
-  player player = 
+  Player player = 
   {
     glm::vec3(100.0f, 500.0f, 0.0f),
     glm::vec3(100.0f, 10.0f, 0.0f),
     glm::vec4(0.0f, 0.0f, 0.0f, 1.0f)
+  };
+  // ---
+
+  // ball
+  // ---
+  float ball_x = player.position.x + player.size.x / 2;
+  float ball_radius = 10.0f;
+  float ball_y = player.position.y - ball_radius;
+  Ball ball = 
+  {
+    glm::vec3(ball_x, ball_y, 0.0f),
+    glm::vec3(0.0f, 0.0f, 0.0f),
+    glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)
   };
   // ---
 
@@ -104,7 +127,7 @@ int main()
     // ---
     for(int i = 0; i < num_rows * num_cols; i++)
     {
-      block block_current = blocks[i];
+      Block block_current = blocks[i];
       render::shapes::quad(
         block_current.top_left,
         size_block,
@@ -122,13 +145,12 @@ int main()
 
     // ball
     // ---
-    float ball_x = player.position.x + player.size.x / 2;
-    float ball_radius = 10.0f;
-    float ball_y = player.position.y - ball_radius;
+    ball.position.x = player.position.x + player.size.x / 2;
+    ball.position.y = player.position.y - ball_radius;
     render::shapes::circle(
-      glm::vec3(ball_x, ball_y, 0.0f),
+      ball.position,
       ball_radius,
-      glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+      ball.color);
     // ---
 
     render::loop::end();
