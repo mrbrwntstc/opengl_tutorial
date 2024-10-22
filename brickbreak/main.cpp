@@ -96,12 +96,12 @@ int main()
 
     // ball
     // ---
-    ball.position.x = player.position.x + player.size.x / 2;
-    ball.position.y = player.position.y - ball_radius;
-    render::shapes::circle(
-      ball.position,
-      ball_radius,
-      ball.color);
+    // ball.position.x = player.position.x + player.size.x / 2;
+    // ball.position.y = player.position.y - ball_radius;
+    // render::shapes::circle(
+    //   ball.position,
+    //   ball_radius,
+    //   ball.color);
     // ---
 
     render::loop::end();

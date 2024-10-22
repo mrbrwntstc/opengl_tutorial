@@ -18,6 +18,13 @@ namespace component
     glm::vec4 color;
     glm::vec3 size;
   };
+
+  struct Ball
+  {
+    glm::vec3 center;
+    float radius;
+    glm::vec4 color;
+  };
 }
 
 namespace level
