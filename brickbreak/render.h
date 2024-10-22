@@ -17,6 +17,7 @@ namespace window
 {
   extern GLFWwindow* window;
   void init(int width, int height, const char* title);
+  inline void get_dimensions(int* width, int* height) { glfwGetFramebufferSize(window, width, height); }
   inline void cleanup() { glfwDestroyWindow(window); }
   inline bool should_close() { return glfwWindowShouldClose(window); }
 }

@@ -8,7 +8,14 @@
 namespace game
 {
   void init();
+  void process_input();
   void render();
+  void cleanup();
+namespace frame
+{
+  void start();
+  void end();
+}
 
 namespace component
 {
