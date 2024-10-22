@@ -1,14 +1,19 @@
 #include "../game.h"
-#include "../render.h"
-#include "../input.h"
 
 static game::component::Block player;
 static game::component::Ball ball;
+
+static const unsigned int width_window = 800;
+static const unsigned int height_window = 600;
 
 namespace game
 {
   void init()
   {
+    render::init(width_window, height_window, "brickbreak", width_window, height_window);
+    input::init();
+    time::init(60);
+
     game::level::init();
 
     // player

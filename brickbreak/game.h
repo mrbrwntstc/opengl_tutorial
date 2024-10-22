@@ -1,6 +1,10 @@
 #ifndef __BRICKBREAK_GAME_H__
 #define __BRICKBREAK_GAME_H__
 
+#include "render.h"
+#include "input.h"
+#include "time.h"
+
 #include <glm/glm.hpp>
 
 #include <array>
