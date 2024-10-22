@@ -65,13 +65,17 @@ namespace game
         player.top_left.x = width_window - player.size.x;
     }
 
-    if(input::key::key_space)
+    if(input::key::key_play)
       game_state = Play;
 
     if(game_state == Start)
     {
       ball.center.x = player.top_left.x + player.size.x / 2;
       ball.center.y = player.top_left.y - ball.radius;
+    } else if (game_state == Play)
+    {
+      ball.center.x += 10.0f;
+      ball.center.y -= 10.0f;
     }
   }
 

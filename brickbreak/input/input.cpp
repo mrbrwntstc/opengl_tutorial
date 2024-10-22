@@ -17,9 +17,9 @@ static void glfw_key_callback(GLFWwindow* window, int key, int scancode, int act
     input::key::key_right = false;
 
   if(key == GLFW_KEY_SPACE && (action == GLFW_PRESS || action == GLFW_REPEAT))
-    input::key::key_space = true;
+    input::key::key_play = true;
   else
-    input::key::key_space = false;
+    input::key::key_play = false;
 }
 
 namespace input

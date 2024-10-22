@@ -8,7 +8,7 @@ namespace key
 {
   extern bool key_left;
   extern bool key_right;
-  extern bool key_space;
+  extern bool key_play;
 }
 }
 
