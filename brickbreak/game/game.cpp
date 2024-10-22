@@ -6,6 +6,14 @@ static game::component::Ball ball;
 static const unsigned int width_window = 800;
 static const unsigned int height_window = 600;
 
+static enum GameState
+{
+  Start,
+  Play
+};
+
+static GameState game_state = Start;
+
 namespace game
 {
   void init()
@@ -39,7 +47,7 @@ namespace game
     // ---
   }
 
-  void process_input()
+  void update()
   {
     int width_window, height_window;
     render::window::get_dimensions(&width_window, &height_window);
@@ -57,6 +65,14 @@ namespace game
         player.top_left.x = width_window - player.size.x;
     }
 
+    if(input::key::key_space)
+      game_state = Play;
+
+    if(game_state == Start)
+    {
+      ball.center.x = player.top_left.x + player.size.x / 2;
+      ball.center.y = player.top_left.y - ball.radius;
+    }
   }
 
   void render()
@@ -72,8 +88,6 @@ namespace game
 
     // ball
     // ---
-    ball.center.x = player.top_left.x + player.size.x / 2;
-    ball.center.y = player.top_left.y - ball.radius;
     render::shapes::circle(ball.center, ball.radius, ball.color);
     // ---
 

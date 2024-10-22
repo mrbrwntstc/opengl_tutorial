@@ -12,7 +12,7 @@
 namespace game
 {
   void init();
-  void process_input();
+  void update();
   void render();
   void cleanup();
 namespace frame

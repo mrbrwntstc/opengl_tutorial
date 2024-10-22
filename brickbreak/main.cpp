@@ -10,7 +10,7 @@ int main()
   {
     game::frame::start();
 
-    game::process_input();
+    game::update();
     
     game::render();
 
