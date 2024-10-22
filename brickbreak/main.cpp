@@ -1,6 +1,7 @@
 #include "render.h"
 #include "input.h"
 #include "time.h"
+#include "game.h"
 
 #include <Windows.h>
 
@@ -58,22 +59,7 @@ int main()
   input::init();
   time::init(60);
 
-  // level
-  // ---
-  Block blocks[num_rows * num_cols];
-  for(int row = 0; row < num_rows; row++)
-  {
-    for(int col = 0; col < num_cols; col++)
-    {
-      glm::vec3 pos = glm::vec3(
-        starting_x_block + col * block_width,
-        starting_y_block + row * block_height,
-        0.0f);
-
-      blocks[row * num_cols + col] = {pos, colors[row]};
-    }
-  }
-  // ---
+  game::init();
 
   // player
   // ---
@@ -125,14 +111,7 @@ int main()
 
     // level
     // ---
-    for(int i = 0; i < num_rows * num_cols; i++)
-    {
-      Block block_current = blocks[i];
-      render::shapes::quad(
-        block_current.top_left,
-        size_block,
-        block_current.color);
-    }
+    game::level::render();
     // ---
 
     // player
