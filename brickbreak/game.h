@@ -8,6 +8,7 @@
 namespace game
 {
   void init();
+  void render();
 
 namespace component
 {

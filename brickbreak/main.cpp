@@ -8,31 +8,6 @@
 static const unsigned int width_window = 800;
 static const unsigned int height_window = 600;
 
-// level
-// ---
-const int num_rows = 6;
-const int num_cols = 10;
-const float block_width = 80.f;
-const float block_height = 20.f;
-glm::vec3 size_block = glm::vec3(block_width, block_height, 0.0f);
-float starting_x_block = 0.0f;
-float starting_y_block = 60.0f;
-glm::vec4 colors[] =
-{
-  glm::vec4(1.0f, 0.0f, 0.0f, 1.0f),    // red
-  glm::vec4(1.0f, 0.647f, 0.0f, 1.0f),  // orange
-  glm::vec4(1.0f, 1.0f, 0.0f, 1.0f),    // yellow
-  glm::vec4(0.0f, 1.0f, 0.0f, 1.0f),    // green
-  glm::vec4(0.0f, 0.0f, 1.0f, 1.0f),    // blue
-  glm::vec4(0.5f, 0.0f, 0.5f, 1.0f)     // purple
-};
-struct Block
-{
-  glm::vec3 top_left;
-  glm::vec4 color;
-};
-// ---
-
 // player
 // ---
 struct Player
@@ -109,17 +84,14 @@ int main()
     // ---
     render::loop::begin();
 
-    // level
-    // ---
-    game::level::render();
-    // ---
+    game::render();
 
     // player
     // ---
-    render::shapes::quad(
-      player.position,
-      player.size,
-      player.color);
+    // render::shapes::quad(
+    //   player.position,
+    //   player.size,
+    //   player.color);
     // ---
 
     // ball
