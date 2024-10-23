@@ -43,6 +43,7 @@ namespace level
 {
   void init();
   void render();
+  void check_collision(game::component::Ball &ball);
 }
 }
 

@@ -112,6 +112,11 @@ namespace game
         ball.velocity.y = -ball.velocity.y;
       }
       // ---
+
+      // level collision
+      // ---
+      game::level::check_collision(ball);
+      // ---
     }
   }
 
