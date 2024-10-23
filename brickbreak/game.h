@@ -28,6 +28,7 @@ namespace component
     glm::vec3 top_left;
     glm::vec4 color;
     glm::vec3 size;
+    bool destroyed = false;
   };
 
   struct Ball

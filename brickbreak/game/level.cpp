@@ -36,7 +36,7 @@ namespace level
           starting_y_block + row * block_height,
           0.0f);
 
-        blocks[row * num_cols + col] = {pos, colors[row], size_block};
+        blocks[row * num_cols + col] = {pos, colors[row], size_block, false};
       }
     }
   }
@@ -45,14 +45,18 @@ namespace level
   {
     for(game::component::Block block : blocks)
     {
-      render::shapes::quad(block.top_left, block.size, block.color);
+      if(block.destroyed == false)
+        render::shapes::quad(block.top_left, block.size, block.color);
     }
   }
 
   void check_collision(game::component::Ball &ball)
   {
-    for(game::component::Block block : blocks)
+    for(game::component::Block& block : blocks)
     {
+      if(block.destroyed)
+        continue;
+
       glm::vec3 block_halfsize = glm::vec3(block.size.x / 2, block.size.y / 2, 0.0f);
       glm::vec3 block_center = glm::vec3(block.top_left.x + block_halfsize.x, block.top_left.y + block_halfsize.y, 0.0f);
       glm::vec3 distance_centers = ball.center - block_center;
@@ -63,6 +67,7 @@ namespace level
       if(distance < ball.radius)
       {
         // test algorithm
+        block.destroyed = true;
         ball.velocity.y = -ball.velocity.y;
       }
     }
