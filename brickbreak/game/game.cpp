@@ -41,6 +41,7 @@ namespace game
     float ball_y = player.top_left.y - ball_radius;
     ball = {
       glm::vec3(ball_x, ball_y, 0.0f),
+      glm::vec3(10.0f, -10.0f, 0.0f),
       ball_radius,
       glm::vec4(1.0f, 0.0f, 0.0f, 1.0f)
     };
@@ -74,8 +75,28 @@ namespace game
       ball.center.y = player.top_left.y - ball.radius;
     } else if (game_state == Play)
     {
-      ball.center.x += 10.0f;
-      ball.center.y -= 10.0f;
+      ball.center.x += ball.velocity.x;
+      ball.center.y += ball.velocity.y;
+      // check wall collision
+      // ---
+      if(ball.center.x < ball.radius) // left
+      {
+        ball.center.x = ball.radius;
+        ball.velocity.x = -ball.velocity.x;
+      } else if(ball.center.x > width_window - ball.radius) // right
+      {
+        ball.center.x = width_window - ball.radius;
+        ball.velocity.x = -ball.velocity.x;
+      } else if(ball.center.y < ball.radius) // top
+      {
+        ball.center.y = ball.radius;
+        ball.velocity.y = -ball.velocity.y;
+      } else if(ball.center.y > height_window - ball.radius) // bottom
+      {
+        ball.center.y = height_window - ball.radius;
+        ball.velocity.y = -ball.velocity.y;
+      }
+      // ---
     }
   }
 

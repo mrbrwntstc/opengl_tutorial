@@ -33,6 +33,7 @@ namespace component
   struct Ball
   {
     glm::vec3 center;
+    glm::vec3 velocity;
     float radius;
     glm::vec4 color;
   };
