@@ -97,6 +97,21 @@ namespace game
         ball.velocity.y = -ball.velocity.y;
       }
       // ---
+
+      // check player collision
+      // ---
+      glm::vec3 player_halfsize = glm::vec3(player.size.x / 2, player.size.y / 2, 0.0f);
+      glm::vec3 player_center = glm::vec3(player.top_left.x + player_halfsize.x, player.top_left.y + player_halfsize.y, 0.0f);
+      glm::vec3 diff = ball.center - player_center;
+      glm::vec3 diff_clamped = glm::clamp(diff, -player_halfsize, player_halfsize);
+      glm::vec3 point_collision = player_center + diff_clamped;
+      glm::vec3 ball_to_player = point_collision - ball.center;
+      if(glm::length(ball_to_player) < ball.radius)
+      {
+        // test collision algorithm
+        ball.velocity.y = -ball.velocity.y;
+      }
+      // ---
     }
   }
 
